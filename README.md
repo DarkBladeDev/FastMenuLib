@@ -20,11 +20,11 @@ Agrega FastMenu como dependencia en tu `build.gradle`:
 ```gradle
 repositories {
     mavenCentral()
-    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+    maven { url = 'https://jitpack.io' }
 }
 
 dependencies {
-    implementation 'com.darkbladedev:fastmenu:1.0.0'
+    implementation 'com.darkbladedev:fastmenu:VERSION'
 }
 ```
 
