@@ -167,6 +167,5 @@ MIT License - Ver archivo LICENSE para más detalles.
 
 ## Soporte
 
-- **Issues**: [GitHub Issues](https://github.com/darkbladedev/fastmenu/issues)
-- **Discord**: [Servidor de Discord](https://discord.gg/tu-servidor)
-- **Documentación**: [Wiki del proyecto](https://github.com/darkbladedev/fastmenu/wiki)
+- **Issues**: [GitHub Issues](https://github.com/DarkBladeDev/FastMenuLib/issues)
+- **Discord**: [DarkBladeDev](https://discord.com/users/835986372594630706)
