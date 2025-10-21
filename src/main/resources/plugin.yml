@@ -1,0 +1,21 @@
+name: FastMenuExample
+version: 1.0.0
+main: com.darkbladedev.fastmenu.examples.ExamplePlugin
+api-version: 1.21
+author: DarkBladeDev
+description: Example plugin demonstrating FastMenu library usage
+
+commands:
+  fastmenu:
+    description: Open FastMenu examples
+    usage: /fastmenu [main|shop|profile|settings]
+    permission: fastmenu.use
+    permission-message: You don't have permission to use FastMenu!
+
+permissions:
+  fastmenu.use:
+    description: Allows using FastMenu commands
+    default: true
+  fastmenu.admin:
+    description: Allows administrative FastMenu functions
+    default: op
