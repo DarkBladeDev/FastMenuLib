@@ -57,7 +57,7 @@ publishing {
             pom {
                 name = 'FastMenu'
                 description = 'A modern, fluent API library for creating Minecraft GUI menus'
-                url = 'https://github.com/DarkBladeDev/FastMenu'
+                url = 'https://github.com/DarkBladeDev/FastMenuLib'
                 
                 licenses {
                     license {
