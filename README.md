@@ -13,6 +13,9 @@ Una librería moderna y fluida para crear menús (GUIs) en plugins de Minecraft 
 
 ## Instalación
 
+[![](https://jitpack.io/v/DarkBladeDev/FastMenuLib.svg)](https://jitpack.io/#DarkBladeDev/FastMenuLib)
+
+
 ### Como Dependencia (Recomendado)
 
 Agrega FastMenu como dependencia en tu `build.gradle`:
@@ -20,11 +23,11 @@ Agrega FastMenu como dependencia en tu `build.gradle`:
 ```gradle
 repositories {
     mavenCentral()
-    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+    maven { url = 'https://jitpack.io' }
 }
 
 dependencies {
-    implementation 'com.darkbladedev:fastmenu:1.0.0'
+    implementation 'com.darkbladedev:fastmenu:VERSION'
 }
 ```
 
@@ -167,6 +170,5 @@ MIT License - Ver archivo LICENSE para más detalles.
 
 ## Soporte
 
-- **Issues**: [GitHub Issues](https://github.com/darkbladedev/fastmenu/issues)
-- **Discord**: [Servidor de Discord](https://discord.gg/tu-servidor)
-- **Documentación**: [Wiki del proyecto](https://github.com/darkbladedev/fastmenu/wiki)
+- **Issues**: [GitHub Issues](https://github.com/DarkBladeDev/FastMenuLib/issues)
+- **Discord**: [DarkBladeDev](https://discord.com/users/835986372594630706)
