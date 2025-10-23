@@ -111,7 +111,7 @@ Menu menu = MenuBuilder.create("settings", "§cSettings", 3)
 
 ## Advanced Examples
 
-Check the `ExampleMenu` class in the `examples` package for complete implementations of:
+Check the `ExampleMenu` class in the [`examples`](https://github.com/DarkBladeDev/FastMenuLib/tree/c7ad3d9d7badce4945cc6e29df8b2c0badffea4e/src/main/java/com/darkbladedev/fastmenu/examples) package for complete implementations of:
 
 - Main menu with navigation
 - Shop with purchase system
