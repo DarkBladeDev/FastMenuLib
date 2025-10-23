@@ -41,36 +41,138 @@ dependencies {
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
-    options.compilerArgs += ['-parameters']
+    options.release = 21
 }
 
-jar {
-    archiveBaseName = 'FastMenu'
-    archiveVersion = version
+test {
+    useJUnitPlatform()
+}
+
+// Javadoc configuration
+javadoc {
+    options {
+        encoding = 'UTF-8'
+        charSet = 'UTF-8'
+        author = true
+        version = true
+        use = true
+        windowTitle = "FastMenu API Documentation v${project.version}"
+        docTitle = "FastMenu API Documentation v${project.version}"
+        header = "<b>FastMenu v${project.version}</b>"
+        bottom = "Copyright © 2025 DarkBladeDev. All rights reserved."
+        
+        // Add custom CSS for better styling
+        // stylesheetFile = file("${projectDir}/src/main/javadoc/stylesheet.css")
+        
+        // Configure links to external documentation
+        links(
+            'https://docs.oracle.com/en/java/javase/21/docs/api/',
+            'https://jd.papermc.io/paper/1.21/',
+            'https://jd.advntr.dev/api/4.17.0/',
+            'https://javadoc.io/doc/org.jetbrains/annotations/latest/'
+        )
+        
+        // Configure groups for better organization
+        group('Core API', ['com.darkbladedev.fastmenu.api*'])
+        group('Core Implementation', ['com.darkbladedev.fastmenu.core*'])
+        group('Utilities', ['com.darkbladedev.fastmenu.utils*'])
+        group('Listeners', ['com.darkbladedev.fastmenu.listeners*'])
+        group('Examples', ['com.darkbladedev.fastmenu.examples*'])
+        
+        // Additional options for better documentation
+        addStringOption('Xdoclint:none', '-quiet')
+        addBooleanOption('splitindex', true)
+        addBooleanOption('html5', true)
+        
+        // Custom tags
+        tags(
+            'apiNote:a:API Note:',
+            'implSpec:a:Implementation Requirements:',
+            'implNote:a:Implementation Note:'
+        )
+    }
+    
+    // Include all source files
+    source = sourceSets.main.allJava
+    classpath = configurations.compileClasspath
+    
+    // Exclude internal packages if any
+    exclude '**/internal/**'
+    
+    // Configure output directory
+    destinationDir = file("${buildDir}/docs/javadoc")
+    
+    // Ensure javadoc task depends on classes
+    dependsOn classes
+}
+
+// Create a task to generate Javadoc JAR
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    archiveClassifier.set('javadoc')
+    from javadoc.destinationDir
+    
+    manifest {
+        attributes(
+            'Implementation-Title': 'FastMenu',
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': 'DarkBladeDev',
+            'Built-By': System.getProperty('user.name'),
+            'Built-Date': new Date().toString(),
+            'Built-JDK': System.getProperty('java.version')
+        )
+    }
+}
+
+// Create a task to generate sources JAR
+task sourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from sourceSets.main.allSource
+    
+    manifest {
+        attributes(
+            'Implementation-Title': 'FastMenu Sources',
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': 'DarkBladeDev',
+            'Built-By': System.getProperty('user.name'),
+            'Built-Date': new Date().toString(),
+            'Built-JDK': System.getProperty('java.version')
+        )
+    }
+}
+
+// Add javadoc and sources JARs to artifacts
+artifacts {
+    archives javadocJar
+    archives sourcesJar
 }
 
 publishing {
     publications {
-        maven(MavenPublication) {
+        mavenJava(MavenPublication) {
             from components.java
-            
             pom {
-                name = 'FastMenu'
-                description = 'A modern, fluent API library for creating Minecraft GUI menus'
-                url = 'https://github.com/DarkBladeDev/FastMenuLib'
-                
+                name.set('FastMenu')
+                description.set('A lightweight and extensible GUI framework for Minecraft Paper plugins.')
+                url.set('https://github.com/DarkBladeDev/FastMenuLib')
+
                 licenses {
                     license {
-                        name = 'MIT License'
-                        url = 'https://opensource.org/licenses/MIT'
+                        name.set('MIT License')
+                        url.set('https://opensource.org/licenses/MIT')
                     }
                 }
-                
+
                 developers {
                     developer {
-                        id = 'darkbladedev'
-                        name = 'DarkBladeDev'
+                        id.set('darkbladedev')
+                        name.set('DarkBladeDev')
                     }
+                }
+
+                scm {
+                    connection.set('scm:git:git://github.com/DarkBladeDev/FastMenuLib.git')
+                    developerConnection.set('scm:git:ssh://github.com:DarkBladeDev/FastMenuLib.git')
+                    url.set('https://github.com/DarkBladeDev/FastMenuLib')
                 }
             }
         }

@@ -16,7 +16,67 @@ import java.util.Map;
 
 /**
  * A fluent builder for creating ItemStacks with Adventure Component support.
- * Supports MiniMessage formatting for modern text styling.
+ * 
+ * <p>This builder provides a comprehensive and intuitive way to create and customize
+ * ItemStacks for Minecraft plugins. It supports modern text formatting through
+ * MiniMessage, extensive customization options, and follows the builder pattern
+ * for clean and readable code.</p>
+ * 
+ * <h3>Key Features:</h3>
+ * <ul>
+ *   <li>Fluent API design for method chaining</li>
+ *   <li>MiniMessage support for modern text formatting</li>
+ *   <li>Legacy color code support for backward compatibility</li>
+ *   <li>Comprehensive item customization (name, lore, enchantments, flags)</li>
+ *   <li>Material and amount configuration</li>
+ *   <li>Custom model data and durability support</li>
+ *   <li>Placeholder replacement in text elements</li>
+ * </ul>
+ * 
+ * <h3>Usage Examples:</h3>
+ * <pre>{@code
+ * // Basic item creation
+ * ItemStack sword = new ItemBuilder(Material.DIAMOND_SWORD)
+ *     .name("<gradient:#ff0000:#00ff00>Epic Sword</gradient>")
+ *     .lore("<gray>A legendary weapon", "<yellow>+10 Attack Damage")
+ *     .enchant(Enchantment.SHARPNESS, 5)
+ *     .build();
+ * 
+ * // Complex item with placeholders
+ * ItemStack playerHead = new ItemBuilder(Material.PLAYER_HEAD)
+ *     .name("<gold>{player}'s Head")
+ *     .lore("<gray>Owner: <white>{player}", "<gray>Level: <green>{level}")
+ *     .applyPlaceholders("player", "Steve", "level", "50")
+ *     .build();
+ * 
+ * // Item with custom model data and flags
+ * ItemStack customItem = new ItemBuilder(Material.STICK)
+ *     .name("<rainbow>Magic Wand</rainbow>")
+ *     .customModelData(12345)
+ *     .addItemFlags(ItemFlag.HIDE_ENCHANTS)
+ *     .glow()
+ *     .build();
+ * }</pre>
+ * 
+ * <h3>Text Formatting:</h3>
+ * <p>The builder supports both MiniMessage format (recommended) and legacy color codes.
+ * MiniMessage provides advanced formatting options including gradients, rainbows,
+ * hover events, and click actions.</p>
+ * 
+ * <h3>Thread Safety:</h3>
+ * <p>This class is not thread-safe. Each instance should be used by a single thread
+ * or proper synchronization should be implemented when sharing instances across threads.</p>
+ * 
+ * <h3>Performance Considerations:</h3>
+ * <p>The builder creates a new ItemStack and ItemMeta instance for each build operation.
+ * For bulk item creation, consider reusing builder instances where possible.</p>
+ * 
+ * @author DarkBladeDev
+ * @since 1.0.0
+ * @see ItemStack
+ * @see ItemMeta
+ * @see Component
+ * @see MiniMessage
  */
 public class ItemBuilder {
 

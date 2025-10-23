@@ -13,8 +13,75 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
- * Simple implementation of MenuItem for basic use cases.
- * Supports both static and dynamic items with optional click actions.
+ * Simple implementation of {@link MenuItem} for basic use cases.
+ * 
+ * <p>SimpleMenuItem provides a flexible and efficient implementation of the MenuItem interface,
+ * supporting both static and dynamic items with optional click actions. It serves as the
+ * default implementation used by {@link MenuBuilder} and can be used directly for
+ * custom menu implementations.</p>
+ * 
+ * <p><strong>Key Features:</strong></p>
+ * <ul>
+ *   <li><strong>Static Items</strong> - Fixed ItemStack that doesn't change</li>
+ *   <li><strong>Dynamic Items</strong> - ItemStack generated per player/context</li>
+ *   <li><strong>Click Actions</strong> - Optional click handlers with full ClickType support</li>
+ *   <li><strong>Performance</strong> - Optimized for minimal memory footprint</li>
+ *   <li><strong>Immutability</strong> - Thread-safe immutable design</li>
+ *   <li><strong>Builder Pattern</strong> - Convenient factory methods for creation</li>
+ * </ul>
+ * 
+ * <p><strong>Usage Examples:</strong></p>
+ * <pre>{@code
+ * // Static item without click action
+ * MenuItem staticItem = SimpleMenuItem.of(
+ *     new ItemStack(Material.DIAMOND)
+ * );
+ * 
+ * // Static item with click action
+ * MenuItem clickableItem = SimpleMenuItem.of(
+ *     new ItemStack(Material.EMERALD),
+ *     player -> player.sendMessage("You clicked an emerald!")
+ * );
+ * 
+ * // Dynamic item that changes based on player
+ * MenuItem dynamicItem = SimpleMenuItem.dynamic(player -> {
+ *     return ItemBuilder.create(Material.PLAYER_HEAD)
+ *         .name(player.getName())
+ *         .lore("Level: " + player.getLevel())
+ *         .build();
+ * });
+ * 
+ * // Dynamic item with click action and click type handling
+ * MenuItem advancedItem = SimpleMenuItem.dynamic(
+ *     player -> createPlayerStats(player),
+ *     (player, clickType) -> {
+ *         if (clickType == ClickType.LEFT) {
+ *             showDetailedStats(player);
+ *         } else if (clickType == ClickType.RIGHT) {
+ *             resetStats(player);
+ *         }
+ *     }
+ * );
+ * }</pre>
+ * 
+ * <p><strong>Performance Considerations:</strong></p>
+ * <ul>
+ *   <li>Static items cache their ItemStack for optimal performance</li>
+ *   <li>Dynamic items regenerate ItemStack on each access - use sparingly</li>
+ *   <li>Click actions are stored as lightweight function references</li>
+ *   <li>Memory usage is minimal due to immutable design</li>
+ * </ul>
+ * 
+ * <p><strong>Thread Safety:</strong></p>
+ * <p>SimpleMenuItem instances are <strong>immutable and thread-safe</strong>. Once created,
+ * they can be safely shared between multiple threads and menus. However, the provided
+ * functions (item providers and click actions) should also be thread-safe.</p>
+ * 
+ * @author DarkBladeDev
+ * @since 1.0.0
+ * @see MenuItem
+ * @see MenuBuilder
+ * @see Menu
  */
 public class SimpleMenuItem implements MenuItem {
 

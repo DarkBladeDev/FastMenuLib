@@ -9,7 +9,64 @@ import java.util.Optional;
 
 /**
  * Represents a context that stores player-specific data for menus.
- * This allows menus to maintain state and dynamic content per player.
+ * 
+ * <p>MenuContext provides a flexible key-value storage system that allows menus
+ * to maintain state and dynamic content on a per-player basis. This is essential
+ * for creating personalized and interactive menu experiences.</p>
+ * 
+ * <p>Key features of MenuContext:</p>
+ * <ul>
+ *   <li><strong>Type-Safe Storage</strong> - Generic methods for type-safe data retrieval</li>
+ *   <li><strong>Null Safety</strong> - Proper handling of null values and optional returns</li>
+ *   <li><strong>Fluent API</strong> - Method chaining support for convenient usage</li>
+ *   <li><strong>Default Values</strong> - Built-in support for default values when keys don't exist</li>
+ *   <li><strong>Data Management</strong> - Complete CRUD operations for context data</li>
+ * </ul>
+ * 
+ * <p><strong>Common Use Cases:</strong></p>
+ * <ul>
+ *   <li>Storing player preferences and settings</li>
+ *   <li>Maintaining pagination state for multi-page menus</li>
+ *   <li>Tracking user selections and form data</li>
+ *   <li>Caching expensive calculations or database queries</li>
+ *   <li>Managing temporary state during menu interactions</li>
+ * </ul>
+ * 
+ * <p><strong>Example Usage:</strong></p>
+ * <pre>{@code
+ * // Creating and using a menu context
+ * MenuContext context = new MenuContext();
+ * 
+ * // Storing different types of data
+ * context.set("current_page", 1)
+ *        .set("selected_items", Arrays.asList("item1", "item2"))
+ *        .set("last_action", "purchase")
+ *        .set("total_cost", 150.75);
+ * 
+ * // Type-safe retrieval with Optional
+ * Optional<Integer> page = context.get("current_page", Integer.class);
+ * if (page.isPresent()) {
+ *     // Handle pagination logic
+ * }
+ * 
+ * // Using default values
+ * int currentPage = context.getOrDefault("current_page", 1);
+ * List<String> items = context.getOrDefault("selected_items", new ArrayList<>());
+ * 
+ * // Checking existence and removing data
+ * if (context.contains("temporary_data")) {
+ *     Object removed = context.remove("temporary_data");
+ * }
+ * }</pre>
+ * 
+ * <p><strong>Thread Safety:</strong></p>
+ * <p>MenuContext is <strong>not thread-safe</strong>. If you need to access the same
+ * context from multiple threads, you must provide external synchronization.</p>
+ * 
+ * @author DarkBladeDev
+ * @since 1.0.0
+ * @see com.darkbladedev.fastmenu.api.Menu#getContext(org.bukkit.entity.Player)
+ * @see com.darkbladedev.fastmenu.api.Menu#setContext(org.bukkit.entity.Player, MenuContext)
  */
 public class MenuContext {
 

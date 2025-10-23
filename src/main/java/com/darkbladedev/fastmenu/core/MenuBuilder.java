@@ -21,7 +21,69 @@ import java.util.function.Function;
 
 /**
  * Builder class for creating menus using a fluent API.
- * Provides convenient methods for setting up menu properties and items.
+ * 
+ * <p>MenuBuilder provides a convenient and flexible way to construct {@link Menu} instances
+ * using the builder pattern. It offers a fluent API that makes menu creation intuitive
+ * and readable, while providing comprehensive validation and error handling.</p>
+ * 
+ * <p><strong>Key Features:</strong></p>
+ * <ul>
+ *   <li><strong>Fluent API</strong> - Chain method calls for readable menu construction</li>
+ *   <li><strong>Type Safety</strong> - Compile-time validation of menu parameters</li>
+ *   <li><strong>Flexible Item Placement</strong> - Multiple ways to add and configure items</li>
+ *   <li><strong>Event Handling</strong> - Custom open/close actions with lambda support</li>
+ *   <li><strong>Validation</strong> - Comprehensive input validation and error messages</li>
+ *   <li><strong>Performance</strong> - Efficient internal data structures and lazy evaluation</li>
+ * </ul>
+ * 
+ * <p><strong>Usage Examples:</strong></p>
+ * <pre>{@code
+ * // Basic menu creation
+ * Menu simpleMenu = MenuBuilder.create("shop", "Shop Menu", 27)
+ *     .item(10, ItemBuilder.create(Material.DIAMOND)
+ *         .name("Diamond")
+ *         .lore("Click to buy!")
+ *         .build())
+ *     .onClick(10, (player, clickType) -> {
+ *         player.sendMessage("You bought a diamond!");
+ *     })
+ *     .build();
+ * 
+ * // Advanced menu with custom actions
+ * Menu advancedMenu = MenuBuilder.create("settings", "Settings", 54)
+ *     .fillBorder(Material.GRAY_STAINED_GLASS_PANE)
+ *     .item(22, Material.REDSTONE, "Toggle PvP", 
+ *           "Click to toggle PvP mode")
+ *     .onOpen(player -> player.sendMessage("Welcome to settings!"))
+ *     .onClose(player -> player.sendMessage("Settings saved!"))
+ *     .build();
+ * 
+ * // Dynamic content with context
+ * Menu dynamicMenu = MenuBuilder.create("profile", "Player Profile", 36)
+ *     .dynamicItem(13, player -> {
+ *         return ItemBuilder.create(Material.PLAYER_HEAD)
+ *             .name(player.getName())
+ *             .lore("Level: " + player.getLevel())
+ *             .build();
+ *     })
+ *     .build();
+ * }</pre>
+ * 
+ * <p><strong>Thread Safety:</strong></p>
+ * <p>MenuBuilder instances are <strong>not thread-safe</strong> and should not be shared
+ * between threads during construction. However, the resulting {@link Menu} instances
+ * are thread-safe and can be safely used across multiple threads.</p>
+ * 
+ * <p><strong>Memory Management:</strong></p>
+ * <p>MenuBuilder uses efficient internal data structures and performs validation
+ * during construction rather than at runtime, ensuring optimal performance of
+ * the resulting menu instances.</p>
+ * 
+ * @author DarkBladeDev
+ * @since 1.0.0
+ * @see Menu
+ * @see MenuItem
+ * @see AbstractMenu
  */
 public final class MenuBuilder {
 

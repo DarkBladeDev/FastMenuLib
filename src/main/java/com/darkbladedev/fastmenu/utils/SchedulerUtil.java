@@ -12,7 +12,89 @@ import java.util.function.Consumer;
 
 /**
  * Utility class for scheduling tasks using the Bukkit scheduler.
- * Provides convenient methods for running tasks synchronously and asynchronously.
+ * 
+ * <p>This utility provides a comprehensive and convenient API for scheduling tasks
+ * in Minecraft plugins. It supports both synchronous and asynchronous task execution,
+ * delayed tasks, repeating tasks, and modern CompletableFuture-based async operations.
+ * The class serves as a wrapper around Bukkit's scheduler system with enhanced
+ * functionality and better error handling.</p>
+ * 
+ * <h3>Key Features:</h3>
+ * <ul>
+ *   <li>Synchronous task execution on the main server thread</li>
+ *   <li>Asynchronous task execution on separate threads</li>
+ *   <li>Delayed task scheduling with customizable delays</li>
+ *   <li>Repeating task scheduling with configurable intervals</li>
+ *   <li>CompletableFuture integration for modern async programming</li>
+ *   <li>Automatic task cancellation and cleanup</li>
+ *   <li>Time unit conversion utilities</li>
+ *   <li>Error handling and exception management</li>
+ * </ul>
+ * 
+ * <h3>Initialization:</h3>
+ * <p>Before using any scheduling methods, the utility must be initialized with
+ * a plugin instance:</p>
+ * <pre>{@code
+ * // In your plugin's onEnable() method
+ * SchedulerUtil.initialize(this);
+ * }</pre>
+ * 
+ * <h3>Usage Examples:</h3>
+ * <pre>{@code
+ * // Run a task immediately on the main thread
+ * SchedulerUtil.runSync(() -> {
+ *     player.sendMessage("Hello from main thread!");
+ * });
+ * 
+ * // Run a task asynchronously
+ * SchedulerUtil.runAsync(() -> {
+ *     // Database operations, file I/O, etc.
+ *     String data = fetchDataFromDatabase();
+ *     
+ *     // Switch back to main thread for Bukkit API calls
+ *     SchedulerUtil.runSync(() -> {
+ *         player.sendMessage("Data: " + data);
+ *     });
+ * });
+ * 
+ * // Schedule a delayed task
+ * SchedulerUtil.runLater(() -> {
+ *     player.sendMessage("This message appears after 5 seconds!");
+ * }, 100L); // 100 ticks = 5 seconds
+ * 
+ * // Schedule a repeating task
+ * BukkitTask task = SchedulerUtil.runTimer(() -> {
+ *     Bukkit.broadcastMessage("This message repeats every 10 seconds!");
+ * }, 0L, 200L); // Start immediately, repeat every 200 ticks
+ * 
+ * // Use CompletableFuture for complex async operations
+ * SchedulerUtil.supplyAsync(() -> {
+ *     return performExpensiveCalculation();
+ * }).thenAcceptSync(result -> {
+ *     player.sendMessage("Calculation result: " + result);
+ * });
+ * }</pre>
+ * 
+ * <h3>Thread Safety:</h3>
+ * <p>This class is thread-safe and can be used from any thread. However, be aware
+ * of Bukkit's threading model - most Bukkit API calls must be made from the main
+ * server thread. Use the sync methods to ensure proper thread execution.</p>
+ * 
+ * <h3>Performance Considerations:</h3>
+ * <p>Async tasks are executed on a separate thread pool, which is ideal for I/O
+ * operations, database queries, and other blocking operations. Avoid running
+ * CPU-intensive tasks that could block the server's main thread.</p>
+ * 
+ * <h3>Error Handling:</h3>
+ * <p>All scheduled tasks include automatic exception handling to prevent server
+ * crashes. Exceptions are logged appropriately and don't affect other scheduled tasks.</p>
+ * 
+ * @author DarkBladeDev
+ * @since 1.0.0
+ * @see BukkitTask
+ * @see BukkitRunnable
+ * @see CompletableFuture
+ * @see Plugin
  */
 public final class SchedulerUtil {
 

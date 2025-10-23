@@ -12,7 +12,52 @@ import java.util.stream.Collectors;
 
 /**
  * Utility class for text formatting and manipulation using Adventure API.
- * Provides methods for converting between different text formats and applying placeholders.
+ * 
+ * <p>This class provides comprehensive text processing capabilities for Minecraft plugins,
+ * including support for MiniMessage format, legacy color codes, hex colors, and placeholder
+ * replacement. It serves as a bridge between different text formatting systems commonly
+ * used in Minecraft development.</p>
+ * 
+ * <h3>Key Features:</h3>
+ * <ul>
+ *   <li>MiniMessage format parsing and serialization</li>
+ *   <li>Legacy color code support (§ and & formats)</li>
+ *   <li>Hex color code processing (&#RRGGBB format)</li>
+ *   <li>Placeholder replacement with customizable patterns</li>
+ *   <li>Batch processing for lists of text</li>
+ *   <li>Component to string conversion utilities</li>
+ * </ul>
+ * 
+ * <h3>Usage Examples:</h3>
+ * <pre>{@code
+ * // Convert MiniMessage to Component
+ * Component component = TextUtil.toComponent("<red>Hello <bold>World</bold>!");
+ * 
+ * // Apply placeholders
+ * String result = TextUtil.applyPlaceholders("Hello {player}!", 
+ *     Map.of("player", "Steve"));
+ * 
+ * // Process legacy colors
+ * Component legacy = TextUtil.toLegacyComponent("&cRed text &aGreen text");
+ * 
+ * // Convert hex colors
+ * String hexText = TextUtil.convertHexColors("&#FF0000Red text");
+ * }</pre>
+ * 
+ * <h3>Thread Safety:</h3>
+ * <p>This class is thread-safe as it only contains static methods and uses immutable
+ * instances of MiniMessage and LegacyComponentSerializer.</p>
+ * 
+ * <h3>Performance Considerations:</h3>
+ * <p>Text processing operations are optimized for performance with compiled regex patterns
+ * and efficient string manipulation. For bulk operations, consider using the batch
+ * processing methods provided.</p>
+ * 
+ * @author DarkBladeDev
+ * @since 1.0.0
+ * @see Component
+ * @see MiniMessage
+ * @see LegacyComponentSerializer
  */
 public final class TextUtil {
 
@@ -72,7 +117,7 @@ public final class TextUtil {
     }
 
     /**
-     * Converts a legacy formatted string (with & color codes) to a Component.
+     * Converts a legacy formatted string (with {@literal &} color codes) to a Component.
      *
      * @param text the legacy formatted text
      * @return the Component
@@ -112,7 +157,7 @@ public final class TextUtil {
     }
 
     /**
-     * Converts a Component to legacy format with & color codes.
+     * Converts a Component to legacy format with {@literal &} color codes.
      *
      * @param component the Component
      * @return the legacy formatted string

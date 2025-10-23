@@ -11,6 +11,54 @@ import java.util.function.Consumer;
 
 /**
  * Represents an item within a menu that can be clicked and interacted with.
+ * 
+ * <p>MenuItem is the core interface for all interactive elements within a FastMenu.
+ * It provides functionality for displaying items, handling click events, and managing
+ * dynamic content that can change based on player context or menu state.</p>
+ * 
+ * <p>Menu items can be:</p>
+ * <ul>
+ *   <li><strong>Static</strong> - Items that never change their appearance or behavior</li>
+ *   <li><strong>Dynamic</strong> - Items that update their content based on player data or menu context</li>
+ *   <li><strong>Clickable</strong> - Items that respond to player clicks with custom actions</li>
+ *   <li><strong>Contextual</strong> - Items that display different content for different players</li>
+ * </ul>
+ * 
+ * <p><strong>Example Usage:</strong></p>
+ * <pre>{@code
+ * // Creating a simple static menu item
+ * MenuItem item = SimpleMenuItem.of(
+ *     new ItemBuilder(Material.DIAMOND)
+ *         .name("§bDiamond Item")
+ *         .lore("§7Click to get diamonds!")
+ *         .build(),
+ *     (player, clickType) -> {
+ *         player.getInventory().addItem(new ItemStack(Material.DIAMOND, 5));
+ *         player.sendMessage("§aYou received 5 diamonds!");
+ *     }
+ * );
+ * 
+ * // Creating a dynamic menu item that changes based on player data
+ * MenuItem dynamicItem = SimpleMenuItem.dynamic(
+ *     player -> {
+ *         int level = player.getLevel();
+ *         return new ItemBuilder(Material.EXPERIENCE_BOTTLE)
+ *             .name("§eYour Level: " + level)
+ *             .lore("§7Current XP: " + player.getExp())
+ *             .build();
+ *     },
+ *     (player, clickType) -> {
+ *         player.setLevel(player.getLevel() + 1);
+ *         // Item will automatically update when menu refreshes
+ *     }
+ * );
+ * }</pre>
+ * 
+ * @author DarkBladeDev
+ * @since 1.0.0
+ * @see com.darkbladedev.fastmenu.core.SimpleMenuItem
+ * @see com.darkbladedev.fastmenu.api.Menu
+ * @see com.darkbladedev.fastmenu.core.MenuBuilder
  */
 public interface MenuItem {
 

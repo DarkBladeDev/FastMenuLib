@@ -18,7 +18,80 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Abstract implementation of the Menu interface providing common functionality.
- * This class handles inventory management, item placement, and player interactions.
+ * 
+ * <p>AbstractMenu serves as the foundation for all menu implementations in the FastMenu library.
+ * It provides a complete, thread-safe implementation of the {@link Menu} interface with robust
+ * inventory management, player state tracking, and event handling capabilities.</p>
+ * 
+ * <p>Key features provided by AbstractMenu:</p>
+ * <ul>
+ *   <li><strong>Thread-Safe Operations</strong> - Uses concurrent collections for safe multi-threaded access</li>
+ *   <li><strong>Automatic Inventory Management</strong> - Handles Bukkit inventory creation and synchronization</li>
+ *   <li><strong>Player State Tracking</strong> - Maintains per-player contexts and open state</li>
+ *   <li><strong>Event Integration</strong> - Seamless integration with Bukkit's inventory events</li>
+ *   <li><strong>Validation and Safety</strong> - Comprehensive input validation and error handling</li>
+ *   <li><strong>Performance Optimized</strong> - Efficient slot updates and batch operations</li>
+ * </ul>
+ * 
+ * <p><strong>Implementation Guidelines:</strong></p>
+ * <p>When extending AbstractMenu, you typically only need to:</p>
+ * <ol>
+ *   <li>Call the super constructor with appropriate parameters</li>
+ *   <li>Override {@link #onOpen(Player)} and {@link #onClose(Player)} for custom behavior</li>
+ *   <li>Populate the menu with items using {@link #setItem(int, MenuItem)}</li>
+ * </ol>
+ * 
+ * <p><strong>Thread Safety:</strong></p>
+ * <p>AbstractMenu is designed to be thread-safe for concurrent access. All internal collections
+ * use concurrent implementations, and inventory updates are properly synchronized with the
+ * Bukkit main thread using {@link SchedulerUtil}.</p>
+ * 
+ * <p><strong>Memory Management:</strong></p>
+ * <p>AbstractMenu automatically manages memory by:</p>
+ * <ul>
+ *   <li>Cleaning up player contexts when menus are closed</li>
+ *   <li>Removing players from tracking sets when they disconnect</li>
+ *   <li>Providing explicit cleanup methods for manual resource management</li>
+ * </ul>
+ * 
+ * <p><strong>Example Implementation:</strong></p>
+ * <pre>{@code
+ * public class ShopMenu extends AbstractMenu {
+ *     
+ *     public ShopMenu() {
+ *         super("shop_menu", Component.text("§6Shop"), 27);
+ *         setupItems();
+ *     }
+ *     
+ *     private void setupItems() {
+ *         // Add shop items
+ *         setItem(10, SimpleMenuItem.of(
+ *             new ItemBuilder(Material.DIAMOND_SWORD)
+ *                 .name("§bDiamond Sword")
+ *                 .lore("§7Price: §e100 coins")
+ *                 .build(),
+ *             (player, clickType) -> {
+ *                 // Handle purchase logic
+ *                 purchaseItem(player, "diamond_sword", 100);
+ *             }
+ *         ));
+ *     }
+ *     
+ *     @Override
+ *     public void onOpen(Player player) {
+ *         // Update prices based on player's economy status
+ *         updatePricesForPlayer(player);
+ *         super.onOpen(player);
+ *     }
+ * }
+ * }</pre>
+ * 
+ * @author DarkBladeDev
+ * @since 1.0.0
+ * @see com.darkbladedev.fastmenu.api.Menu
+ * @see com.darkbladedev.fastmenu.core.MenuBuilder
+ * @see com.darkbladedev.fastmenu.api.MenuItem
+ * @see com.darkbladedev.fastmenu.api.MenuContext
  */
 public abstract class AbstractMenu implements Menu {
 

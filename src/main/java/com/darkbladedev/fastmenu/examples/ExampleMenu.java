@@ -17,13 +17,78 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Example implementation demonstrating FastMenu library usage.
- * This class shows various features including:
- * - Basic menu creation with MenuBuilder
- * - Different types of menu items
- * - Click actions and menu interactions
- * - Dynamic content and context usage
- * - Menu navigation and management
+ * Comprehensive example implementation demonstrating the FastMenu library's capabilities.
+ * 
+ * <p>This class serves as a complete demonstration of the FastMenu library, showcasing
+ * various features and best practices for creating interactive menus in Minecraft plugins.
+ * It includes examples of different menu types, item configurations, click actions,
+ * dynamic content updates, and advanced menu management techniques.</p>
+ * 
+ * <h3>Demonstrated Features:</h3>
+ * <ul>
+ *   <li><strong>Menu Creation:</strong> Using MenuBuilder for fluent menu construction</li>
+ *   <li><strong>Item Types:</strong> Static items, dynamic items, and interactive elements</li>
+ *   <li><strong>Click Actions:</strong> Various click handlers and action types</li>
+ *   <li><strong>Dynamic Content:</strong> Real-time updates and context-sensitive displays</li>
+ *   <li><strong>Navigation:</strong> Multi-page menus and menu transitions</li>
+ *   <li><strong>Sound Effects:</strong> Audio feedback for user interactions</li>
+ *   <li><strong>Permissions:</strong> Permission-based menu access and item visibility</li>
+ *   <li><strong>Animations:</strong> Visual effects and item animations</li>
+ *   <li><strong>Context Management:</strong> Player-specific data and menu states</li>
+ * </ul>
+ * 
+ * <h3>Menu Examples Included:</h3>
+ * <ul>
+ *   <li><strong>Main Menu:</strong> Central hub with navigation options</li>
+ *   <li><strong>Player Info Menu:</strong> Displays player statistics and information</li>
+ *   <li><strong>Settings Menu:</strong> Configuration options and preferences</li>
+ *   <li><strong>Confirmation Menu:</strong> Yes/No dialogs and confirmations</li>
+ *   <li><strong>Paginated Menu:</strong> Multi-page content with navigation</li>
+ *   <li><strong>Dynamic Menu:</strong> Real-time updating content</li>
+ * </ul>
+ * 
+ * <h3>Usage Example:</h3>
+ * <pre>{@code
+ * // In your plugin's onEnable() method
+ * ExampleMenu exampleMenu = new ExampleMenu(this);
+ * exampleMenu.initialize();
+ * 
+ * // Register the command
+ * getCommand("menu").setExecutor(exampleMenu);
+ * }</pre>
+ * 
+ * <h3>Command Usage:</h3>
+ * <p>Players can access the example menus using the following commands:</p>
+ * <ul>
+ *   <li><code>/menu</code> - Opens the main example menu</li>
+ *   <li><code>/menu info</code> - Opens the player information menu</li>
+ *   <li><code>/menu settings</code> - Opens the settings menu</li>
+ *   <li><code>/menu confirm</code> - Opens a confirmation dialog example</li>
+ * </ul>
+ * 
+ * <h3>Implementation Notes:</h3>
+ * <p>This example demonstrates proper initialization order, error handling,
+ * and resource management. It follows best practices for menu creation,
+ * including proper cleanup, thread safety considerations, and performance
+ * optimization techniques.</p>
+ * 
+ * <h3>Customization:</h3>
+ * <p>Developers can use this class as a template for creating their own
+ * menu systems. The modular design allows for easy customization and
+ * extension of existing functionality.</p>
+ * 
+ * <h3>Performance Considerations:</h3>
+ * <p>The example includes optimizations for large player bases, including
+ * efficient item caching, lazy loading of dynamic content, and proper
+ * memory management to prevent memory leaks.</p>
+ * 
+ * @author DarkBladeDev
+ * @since 1.0.0
+ * @see MenuBuilder
+ * @see MenuManager
+ * @see MenuItem
+ * @see MenuAction
+ * @see CommandExecutor
  */
 public class ExampleMenu implements CommandExecutor {
 
@@ -101,7 +166,7 @@ public class ExampleMenu implements CommandExecutor {
         Menu mainMenu = MenuBuilder.create("main_menu", "§6§lFastMenu §7- Main Menu", 5)
             // Header decoration
             .setRow(0, SimpleMenuItem.decoration(new ItemBuilder(Material.YELLOW_STAINED_GLASS_PANE)
-                .name("§e§l▬▬▬▬▬▬▬▬▬")
+                .name("§e§l▬▬▬▬▬▬▬")
                 .build()).getItemStack())
             
             // Navigation items
@@ -147,7 +212,7 @@ public class ExampleMenu implements CommandExecutor {
             
             // Footer decoration
             .setRow(4, SimpleMenuItem.decoration(new ItemBuilder(Material.YELLOW_STAINED_GLASS_PANE)
-                .name("§e§l▬▬▬▬▬▬▬▬▬")
+                .name("§e§l▬▬▬▬▬▬▬")
                 .build()).getItemStack())
             
             // Close button

@@ -10,7 +10,68 @@ import java.util.Map;
 
 /**
  * Represents a GUI menu that can be displayed to players.
- * This is the main interface for all menu implementations.
+ * 
+ * <p>Menu is the core interface for all menu implementations in the FastMenu library.
+ * It provides a comprehensive API for creating, managing, and displaying interactive
+ * GUI menus to Minecraft players using Bukkit inventories.</p>
+ * 
+ * <p>Key features of Menu implementations:</p>
+ * <ul>
+ *   <li><strong>Inventory Management</strong> - Automatic creation and management of Bukkit inventories</li>
+ *   <li><strong>Item Placement</strong> - Easy placement and removal of menu items in specific slots</li>
+ *   <li><strong>Player Context</strong> - Per-player data storage for dynamic content</li>
+ *   <li><strong>Event Handling</strong> - Built-in click and interaction event management</li>
+ *   <li><strong>Lifecycle Management</strong> - Open/close callbacks and state tracking</li>
+ *   <li><strong>Dynamic Updates</strong> - Real-time menu content updates and refreshing</li>
+ * </ul>
+ * 
+ * <p><strong>Menu Lifecycle:</strong></p>
+ * <ol>
+ *   <li><strong>Creation</strong> - Menu is created with a unique ID, title, and size</li>
+ *   <li><strong>Configuration</strong> - Items are added and configured using {@link #setItem(int, MenuItem)}</li>
+ *   <li><strong>Opening</strong> - Menu is opened for a player using {@link #open(Player)}</li>
+ *   <li><strong>Interaction</strong> - Player clicks are handled by menu items</li>
+ *   <li><strong>Updates</strong> - Menu content can be refreshed using {@link #refresh()} or {@link #refresh(Player)}</li>
+ *   <li><strong>Closing</strong> - Menu is closed automatically or manually using {@link #close(Player)}</li>
+ * </ol>
+ * 
+ * <p><strong>Example Usage:</strong></p>
+ * <pre>{@code
+ * // Creating a simple menu using MenuBuilder
+ * Menu menu = MenuBuilder.create("example_menu", "§6Example Menu", 3)
+ *     .setItem(10, SimpleMenuItem.of(
+ *         new ItemBuilder(Material.DIAMOND)
+ *             .name("§bDiamond")
+ *             .lore("§7Click to get diamonds!")
+ *             .build(),
+ *         (player, clickType) -> {
+ *             player.getInventory().addItem(new ItemStack(Material.DIAMOND, 5));
+ *             player.sendMessage("§aYou received 5 diamonds!");
+ *         }
+ *     ))
+ *     .setItem(16, SimpleMenuItem.of(
+ *         new ItemBuilder(Material.BARRIER)
+ *             .name("§cClose")
+ *             .build(),
+ *         MenuAction.CLOSE
+ *     ))
+ *     .build();
+ * 
+ * // Opening the menu for a player
+ * menu.open(player);
+ * 
+ * // Using menu context for player-specific data
+ * MenuContext context = menu.getContext(player);
+ * context.set("last_opened", System.currentTimeMillis());
+ * context.set("visit_count", context.getOrDefault("visit_count", 0) + 1);
+ * }</pre>
+ * 
+ * @author DarkBladeDev
+ * @since 1.0.0
+ * @see com.darkbladedev.fastmenu.core.MenuBuilder
+ * @see com.darkbladedev.fastmenu.core.AbstractMenu
+ * @see com.darkbladedev.fastmenu.api.MenuItem
+ * @see com.darkbladedev.fastmenu.api.MenuContext
  */
 public interface Menu {
 
