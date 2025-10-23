@@ -1,24 +1,23 @@
 # FastMenu Library
 
-Una librería moderna y fluida para crear menús (GUIs) en plugins de Minecraft Paper/Spigot.
+A modern and fluid library for creating menus (GUIs) in Minecraft Paper/Spigot plugins.
 
-## Características
+## Features
 
-- **API Fluida**: Sintaxis clara y legible usando builders
-- **Manejo Automático de Eventos**: Sin necesidad de crear listeners manualmente
-- **Soporte para Contenido Dinámico**: Items que se actualizan automáticamente
-- **Sistema de Contexto**: Datos específicos por jugador
-- **Adventure API**: Soporte completo para formateo de texto moderno
-- **Extensible**: Diseño modular para futuras características
+- **Fluent API**: Clear and readable syntax using builders
+- **Automatic Event Handling**: No need to manually create listeners
+- **Dynamic Content Support**: Items that automatically update
+- **Context System**: Player-specific data handling
+- **Adventure API**: Full support for modern text formatting
+- **Extensible**: Modular design ready for future features
 
-## Instalación
+## Installation
 
 [![](https://jitpack.io/v/DarkBladeDev/FastMenuLib.svg)](https://jitpack.io/#DarkBladeDev/FastMenuLib)
 
+### As a Dependency (Recommended)
 
-### Como Dependencia (Recomendado)
-
-Agrega FastMenu como dependencia en tu `build.gradle`:
+Add FastMenu as a dependency in your `build.gradle`:
 
 ```gradle
 repositories {
@@ -31,144 +30,144 @@ dependencies {
 }
 ```
 
-### Como Plugin Independiente
+### As a Standalone Plugin
 
-1. Compila el proyecto: `./gradlew build`
-2. Coloca el JAR en tu carpeta `plugins/`
-3. Reinicia el servidor
+1. Build the project: `./gradlew build`
+2. Place the JAR inside your `plugins/` folder
+3. Restart the server
 
-## Uso Básico
+## Basic Usage
 
-### Inicialización
+### Initialization
 
 ```java
-public class MiPlugin extends JavaPlugin {
+public class MyPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
-        // Inicializar FastMenu
+        // Initialize FastMenu
         MenuManager.initialize(this);
         SchedulerUtil.initialize(this);
     }
 }
 ```
 
-### Crear un Menú Simple
+### Creating a Simple Menu
 
 ```java
-Menu menu = MenuBuilder.create("mi_menu", "§6Mi Menú", 3)
+Menu menu = MenuBuilder.create("my_menu", "§6My Menu", 3)
     .setItem(13, new ItemBuilder(Material.DIAMOND)
-        .name("§bDiamante")
-        .lore("§7¡Haz clic para obtener un diamante!")
+        .name("§bDiamond")
+        .lore("§7Click to receive a diamond!")
         .onClick((player, click) -> {
             player.getInventory().addItem(new ItemStack(Material.DIAMOND));
-            player.sendMessage("§a¡Recibiste un diamante!");
+            player.sendMessage("§aYou received a diamond!");
         })
         .build())
     
     .setItem(22, new ItemBuilder(Material.BARRIER)
-        .name("§cCerrar")
+        .name("§cClose")
         .onClick(MenuAction.close())
         .build())
     
     .build();
 
-// Abrir el menú
+// Open the menu
 menu.open(player);
 ```
 
-### Contenido Dinámico
+### Dynamic Content
 
 ```java
-Menu menu = MenuBuilder.create("tienda", "§2Tienda", 4)
+Menu menu = MenuBuilder.create("shop", "§2Shop", 4)
     .setItem(13, SimpleMenuItem.dynamic("balance", (player, context) -> {
-        int balance = getPlayerBalance(player); // Tu método para obtener balance
+        int balance = getPlayerBalance(player); // Your method to get balance
         
         return new ItemBuilder(Material.GOLD_INGOT)
-            .name("§6Tu Balance")
-            .lore("§7Balance actual: §6" + balance + " monedas")
+            .name("§6Your Balance")
+            .lore("§7Current balance: §6" + balance + " coins")
             .build();
     }))
     .build();
 ```
 
-### Sistema de Contexto
+### Context System
 
 ```java
-Menu menu = MenuBuilder.create("configuracion", "§cConfiguración", 3)
-    .setItem(11, SimpleMenuItem.dynamic("sonidos", (player, context) -> {
+Menu menu = MenuBuilder.create("settings", "§cSettings", 3)
+    .setItem(11, SimpleMenuItem.dynamic("sounds", (player, context) -> {
         boolean soundEnabled = context.getData("sound_enabled", Boolean.class, true);
         
         return new ItemBuilder(soundEnabled ? Material.LIME_DYE : Material.GRAY_DYE)
-            .name(soundEnabled ? "§aSonidos: Activados" : "§cSonidos: Desactivados")
+            .name(soundEnabled ? "§aSounds: Enabled" : "§cSounds: Disabled")
             .onClick((p, click) -> {
                 boolean newState = !soundEnabled;
                 context.setData("sound_enabled", newState);
-                menu.refresh(p); // Actualizar el menú
+                menu.refresh(p); // Refresh the menu
             })
             .build();
     }))
     .build();
 ```
 
-## Ejemplos Avanzados
+## Advanced Examples
 
-Consulta la clase `ExampleMenu` en el paquete `examples` para ver implementaciones completas de:
+Check the `ExampleMenu` class in the [`examples`](https://github.com/DarkBladeDev/FastMenuLib/tree/c7ad3d9d7badce4945cc6e29df8b2c0badffea4e/src/main/java/com/darkbladedev/fastmenu/examples) package for complete implementations of:
 
-- Menú principal con navegación
-- Tienda con sistema de compras
-- Perfil de jugador con estadísticas dinámicas
-- Configuraciones con toggles persistentes
+- Main menu with navigation
+- Shop with purchase system
+- Player profile with dynamic statistics
+- Settings menu with persistent toggles
 
 ## API Reference
 
 ### MenuBuilder
 
-- `create(id, title, rows)` - Crear un nuevo builder
-- `setItem(slot, item)` - Establecer un item en un slot específico
-- `fillRow(row, item)` - Llenar una fila completa
-- `fillBorder(item)` - Llenar el borde del menú
-- `onOpen(action)` - Acción al abrir el menú
-- `onClose(action)` - Acción al cerrar el menú
-- `build()` - Construir el menú final
+- `create(id, title, rows)` – Create a new builder
+- `setItem(slot, item)` – Set an item in a specific slot
+- `fillRow(row, item)` – Fill a whole row
+- `fillBorder(item)` – Fill the menu border
+- `onOpen(action)` – Action triggered when opening the menu
+- `onClose(action)` – Action triggered when closing the menu
+- `build()` – Build the final menu
 
 ### ItemBuilder
 
-- `name(text)` - Establecer nombre (soporta MiniMessage)
-- `lore(lines...)` - Agregar líneas de lore
-- `onClick(action)` - Definir acción de clic
-- `amount(count)` - Establecer cantidad
-- `enchant(enchantment, level)` - Agregar encantamiento
-- `glow()` - Agregar efecto de brillo
+- `name(text)` – Set item name (supports MiniMessage)
+- `lore(lines...)` – Add lore lines
+- `onClick(action)` – Define click action
+- `amount(count)` – Set item amount
+- `enchant(enchantment, level)` – Add enchantment
+- `glow()` – Add glowing effect
 
 ### MenuAction
 
-- `MenuAction.close()` - Cerrar el menú
-- `MenuAction.refresh()` - Refrescar el menú
-- `MenuAction.openMenu(menu)` - Abrir otro menú
-- `MenuAction.runCommand(command)` - Ejecutar comando
-- `MenuAction.sendMessage(message)` - Enviar mensaje
+- `MenuAction.close()` – Close the menu
+- `MenuAction.refresh()` – Refresh the menu
+- `MenuAction.openMenu(menu)` – Open another menu
+- `MenuAction.runCommand(command)` – Run a command
+- `MenuAction.sendMessage(message)` – Send a message
 
-## Dependencias
+## Dependencies
 
 - Paper API 1.21+
-- Adventure API (incluida en Paper)
-- Lombok (para desarrollo)
-- Caffeine (para caché interno)
-- PlaceholderAPI (opcional)
+- Adventure API (included in Paper)
+- Lombok (for development)
+- Caffeine (for internal caching)
+- PlaceholderAPI (optional)
 
-## Licencia
+## License
 
-MIT License - Ver archivo LICENSE para más detalles.
+MIT License – See the LICENSE file for details.
 
-## Contribuir
+## Contributing
 
-1. Fork el repositorio
-2. Crea una rama para tu feature (`git checkout -b feature/nueva-caracteristica`)
-3. Commit tus cambios (`git commit -am 'Agregar nueva característica'`)
-4. Push a la rama (`git push origin feature/nueva-caracteristica`)
-5. Crea un Pull Request
+1. Fork the repository
+2. Create a new branch for your feature (`git checkout -b feature/new-feature`)
+3. Commit your changes (`git commit -am 'Add new feature'`)
+4. Push your branch (`git push origin feature/new-feature`)
+5. Create a Pull Request
 
-## Soporte
+## Support
 
 - **Issues**: [GitHub Issues](https://github.com/DarkBladeDev/FastMenuLib/issues)
 - **Discord**: [DarkBladeDev](https://discord.com/users/835986372594630706)
