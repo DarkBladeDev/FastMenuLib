@@ -13,7 +13,7 @@ A modern and fluid library for creating menus (GUIs) in Minecraft Paper/Spigot p
 
 ## Installation
 
-[![](https://jitpack.io/v/DarkBladeDev/FastMenuLib.svg)](https://jitpack.io/#DarkBladeDev/FastMenuLib)
+[![](https://jitpack.io/v/DarkBladeDev/FastMenuLib.svg)](https://jitpack.io/#DarkBladeDev/FastMenuLib) [![CodeFactor](https://www.codefactor.io/repository/github/darkbladedev/fastmenulib/badge)](https://www.codefactor.io/repository/github/darkbladedev/fastmenulib)
 
 ### As a Dependency (Recommended)
 
