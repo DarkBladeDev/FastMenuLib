@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.darkbladedev:fastmenu:VERSION'
+    implementation 'com.github.DarkBladeDev:FastMenuLib:VERSION'
 }
 ```
 
