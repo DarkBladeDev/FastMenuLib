@@ -157,7 +157,7 @@ Check the `ExampleMenu` class in the [`examples`](https://github.com/DarkBladeDe
 
 ## License
 
-MIT License – See the LICENSE file for details.
+MIT License – See the [LICENSE](https://github.com/DarkBladeDev/FastMenuLib/blob/main/LICENSE) file for details.
 
 ## Contributing
 
